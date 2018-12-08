@@ -156,8 +156,45 @@ public class ReservationControllerTest {
                 .andExpect(MockMvcResultMatchers.content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andReturn();
-        Assert.assertEquals(result.getResponse().getContentAsString(),"{result:\"OK\"}");
+        Assert.assertEquals(result.getResponse().getContentAsString(),"{\"result\":\"OK\"}");
         jdbcTemplate.execute("delete from reservation where beginTime < '2018-01-01'");
+    }
+
+    @Test
+    public void 두번_예약으로_예약_실패() throws Exception {
+        StringBuffer content = new StringBuffer()
+                .append("beginDate=")
+                .append(URLEncoder.encode("2016-12-07 00:00:00", "UTF-8"))
+                .append("&")
+                .append("endDate=")
+                .append(URLEncoder.encode("2016-12-07 20:00:00", "UTF-8"))
+                .append("&")
+                .append("roomName=")
+                .append(URLEncoder.encode("테스트", "UTF-8"))
+                .append("&")
+                .append("userName=")
+                .append(URLEncoder.encode("테스트 유저", "UTF-8"))
+                .append("&")
+                .append("repeat=0");
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .post("/reservation")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .content(content.toString()))
+                .andExpect(MockMvcResultMatchers.content()
+                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+        Assert.assertEquals(result.getResponse().getContentAsString(),"{\"result\":\"OK\"}");
+
+        MvcResult result2 = mvc.perform(MockMvcRequestBuilders
+                .post("/reservation")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .content(content.toString()))
+                .andExpect(MockMvcResultMatchers.content()
+                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        Assert.assertEquals(result2.getResponse().getContentAsString(),"{\"result\":\"RESERVATION_ERROR\", \"reason\":\"CUP_CAKE\"}");
+        jdbcTemplate.execute("delete from reservation where beginTime < '2017-01-01'");
     }
 
 

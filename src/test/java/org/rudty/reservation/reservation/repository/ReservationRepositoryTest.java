@@ -38,18 +38,19 @@ public class ReservationRepositoryTest {
 
     @Test
     public void 예약가능한_날짜_앞() {
-//        db에 이렇게 들어 갔음
-//        begin 2018-12-07 19:00:00.000 / end 2018-12-07 20:00:00.000
+
+        jdbcTemplate.execute("exec request_reservation '2015-01-01 13:00:00','2015-01-01 14:00:00',1,1,0 ");
         DateTimeFormatter formatter = new DateTimeFormatterBuilder()
                 .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                 .toFormatter();
-        LocalDateTime beginTime = LocalDateTime.parse("2018-12-07 13:00:00", formatter);
-        LocalDateTime endTime = LocalDateTime.parse("2018-12-07 19:00:00", formatter);
+        LocalDateTime beginTime = LocalDateTime.parse("2015-01-01 00:00:00", formatter);
+        LocalDateTime endTime = LocalDateTime.parse("2015-01-01 13:00:00", formatter);
         System.out.println(beginTime.toString());
         System.out.println(endTime.toString());
 
 //        System.out.println(reservationRepository.availabilityReservation(beginTime, endTime, 1, 1));
         Assert.assertTrue(reservationRepository.availabilityReservation(beginTime, endTime, 1, 1));
+        jdbcTemplate.execute("delete from reservation where beginTime < '2017-01-01'");
     }
 
 
