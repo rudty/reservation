@@ -24,7 +24,6 @@ CREATE TABLE [dbo].[reservation](
   GO
 
 
--- 상태 조회용 PK
 ALTER TABLE [dbo].[reservation] ADD  CONSTRAINT [PK_reservation] PRIMARY KEY CLUSTERED
   (
   [idx] ASC
@@ -35,11 +34,11 @@ ALTER TABLE [dbo].[reservation] ADD  CONSTRAINT [PK_reservation] PRIMARY KEY CLU
 -- 방 이름으로 조회할 수 있도록 방이름, 시작시간, 끝시간 인덱스 추가
 CREATE NONCLUSTERED INDEX [IX_reservation] ON [dbo].[reservation]
 (
-[roomName] ASC,
+[roomsn] ASC,
 [beginTime] DESC,
 [endTime] DESC
 )
-INCLUDE ( [usersn]) ON [PRIMARY]
+INCLUDE ([idx], [usersn], [repeat]) ON [PRIMARY]
 GO
 
 
