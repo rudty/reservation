@@ -25,3 +25,11 @@ hs_err_pid*
 # intellij
 *.iml
 .idea
+*kotlin_module
+*.bin
+*.lock
+*cache.properties
+*gc.properties
+
+# out files
+out/
