@@ -51,23 +51,5 @@ public class DateUtils {
             throw new IllegalArgumentException("can not view more than a "+maxDiffDay+"day");
         }
     }
-
-    /**
-     *
-     * @param beginDate yyyy-MM-dd HH:mm:ss.0? 의 문자열
-     * @param endDate yyyy-MM-dd HH:mm:ss.?0? 의 문자열
-     * @param maxDiffDay 최대로 차이나는 날짜 수 maxDiffDay 이상으로 차이나면 에러
-     * @return 사이에 있는 날짜 문자열인지 판별
-     */
-    public static void checkBetweenDates(String beginDate, String endDate, int maxDiffDay) {
-        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
-                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.0"))
-                .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-                .toFormatter();
-        LocalDateTime beginDateTime = LocalDateTime.parse(beginDate, formatter);
-        LocalDateTime endDateTime = LocalDateTime.parse(endDate, formatter);
-
-        checkBetweenDates(beginDateTime, endDateTime, maxDiffDay);
-    }
-
+    
 }
