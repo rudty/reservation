@@ -39,7 +39,12 @@ public class DateUtils {
 
         if(maxDiffDay == 0){
             if (beginDateTime.getDayOfMonth() != endDateTime.getDayOfMonth()) {
-                throw new IllegalArgumentException("require same date");
+                if (endDateTime.getHour() == 0 && endDateTime.getMinute() == 0){
+                    //같은날짜의 00시는 그 전날의 24시까지로 취급
+                    //예외를 발생하지 않음.
+                } else {
+                    throw new IllegalArgumentException("require same date");
+                }
             }
 
         } else if(beginDateTime.until(endDateTime, ChronoUnit.DAYS) > maxDiffDay) {

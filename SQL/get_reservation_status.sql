@@ -29,8 +29,7 @@ on r.usersn = u.usersn
    join [dbo].[room] with(nolock)
 on r.[roomsn] = [room].[roomsn]
 where 1=1
-  and beginTime >= @beginTime
-  and endTime < @endTime
+  and @beginTime <= beginTime and  beginTime <= @endTime
   and roomName = @roomName
 order by beginTime
 END

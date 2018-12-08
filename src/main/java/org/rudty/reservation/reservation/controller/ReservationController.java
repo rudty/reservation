@@ -47,7 +47,7 @@ public class ReservationController {
             @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") LocalDateTime beginDate,
 
             @RequestParam(name = "endDate")
-            @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss") LocalDateTime endDate,
+            LocalDateTime endDate,
 
             String roomName,
             String userName,

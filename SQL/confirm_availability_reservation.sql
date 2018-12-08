@@ -32,7 +32,7 @@ BEGIN
    * }
    * return 0;
    ******************************************************************/
-  declare @i int = 0
+  declare @i int = -1
   while @i < @repeat
   begin
     if exists (

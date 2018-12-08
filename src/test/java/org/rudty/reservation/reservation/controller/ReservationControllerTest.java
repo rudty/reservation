@@ -36,6 +36,35 @@ public class ReservationControllerTest {
     JdbcTemplate jdbcTemplate;
 
     @Test
+    public void 예약다음날00시까지_가능() throws Exception {
+        StringBuffer content = new StringBuffer()
+                .append("beginDate=")
+                .append(URLEncoder.encode("2017-12-07 23:30:00", "UTF-8"))
+                .append("&")
+                .append("endDate=")
+                .append(URLEncoder.encode("2017-12-07 24:00:00", "UTF-8"))
+                .append("&")
+                .append("roomName=")
+                .append(URLEncoder.encode("테스트", "UTF-8"))
+                .append("&")
+                .append("userName=")
+                .append(URLEncoder.encode("테스트 유저", "UTF-8"))
+                .append("&")
+                .append("repeat=0");
+        MvcResult result = mvc.perform(MockMvcRequestBuilders
+                .post("/reservation")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .content(content.toString()))
+                .andExpect(MockMvcResultMatchers.content()
+                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andReturn();
+        Assert.assertEquals(result.getResponse().getContentAsString(),"{result:\"OK\"}");
+        jdbcTemplate.execute("delete from reservation " +
+                "where beginTime='2017-12-07 23:30:00' and endTime='2017-12-08 00:00:00'" +
+                "and roomsn=1");
+    }
+
+    @Test
     public void 같은_날짜로는_예약할_수_없어요() {
         DateTimeFormatter formatter = new DateTimeFormatterBuilder()
                 .appendOptional(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
