@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>회의실</title>
+    <link rel="stylesheet" href="styles/timetablejs.css">
+    <link rel="stylesheet" href="styles/demo.css">
+</head>
+<body>
+<h1>예약 상황</h1>
+예약 시간 볼 날짜<input id="show_date"type="date" />
+<input id="show_reservation" type="button" value="보기">
+<div id="reservation_info" class="timetable"></div>
+
+
+<h1>예약 하기</h1>
+회의실 <select id="roomName">
+    <option value="A">A</option>
+    <option value="B">B</option>
+    <option value="C">C</option>
+    <option value="D">D</option>
+    <option value="E">E</option>
+    <option value="F">F</option>
+    <option value="G">G</option>
+</select> <br/>
+예약자명 <input type="text" placeholder="냐옹이" id="userName" /><br/>
+예약일자 <input type="date" id="request_date"><br/>
+예약시간 <input type="text" placeholder="16:00" id="beginDate" />  ~ <input type="text" placeholder="HH:mm 으로 입력" id="endDate" /><br/>
+반복하기 <input type="number" value="0" id="repeat"/><br/>
+<input id="request_reservation" type="button" value="예약하기">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="timetable.js"></script>
+<script>
+    function onReservationError(err){
+        var result = err.reason;
+
+        switch (result) {
+            case "APPLE_PIE":
+                alert("방이름 오류");
+                break;
+            case "BANANA_BREAD":
+                alert("등록되지 않은 사용자");
+                break;
+            case "CUP_CAKE":
+                alert("이미 그 시간에 예약이 되어 있습니다");
+                break;
+            default:
+                alert(result);
+                break;
+        }
+    }
+    $("#request_reservation").click(function (ev) {
+        var selectDate = $("#request_date").val();
+        var roomName = $("#roomName").val();
+        var userName = $("#userName").val();
+        var beginDate = selectDate +" "+ $("#beginDate").val();
+        var endDate = selectDate +" "+ $("#endDate").val();
+        var repeat = $("#repeat").val();
+        $.ajax({
+            url:"/reservation",
+            type:"post",
+            data: {
+                roomName: roomName,
+                userName: userName,
+                beginDate: beginDate,
+                endDate: endDate,
+                repeat: repeat
+            },
+            success:function(data) {
+                if(data["result"] === "OK") {
+                    alert("예약 성공");
+                } else {
+                    alert("오류");
+                }
+            },
+            error: function(request,status,error) {
+                onReservationError(request["responseJSON"]);
+            }
+        }) ;
+
+    });
+</script>
+<script>
+    $("#show_reservation").click(function (ev) {
+        var selectDate = $("#show_date").val();
+        var beginDate = selectDate +" 00:00:00";
+        var endDate = selectDate + " 23:59:59";
+        $.ajax({
+            url:"/status" +
+                "?beginDate=" + encodeURI(beginDate) +
+                "&endDate=" + encodeURI(endDate),
+            success: makeShowReservationTable,
+            error: function(e){alert(e);}
+        });
+    });
+
+    function makeShowReservationTable(data) {
+        console.log(data);
+        var timetable = new Timetable();
+        timetable.setScope(3, 2);
+        var roomNames = [];
+        data.forEach(function(e) {
+            roomNames.push(e["roomName"]);
+        });
+        timetable.addLocations(roomNames);
+
+        data.forEach(function(room) {
+            var roomName = room["roomName"];
+            var reservationList = room["roomStatusList"];
+
+            reservationList.forEach(function(r){
+                var beginTime = new Date(r["beginTime"]);
+                var endTime = new Date(r["endTime"]);
+                var repeat = r["repeat"];
+                var userName = r["userName"];
+                timetable.addEvent(userName + " 반복:"+repeat,
+                    roomName,
+                    beginTime,
+                    endTime,
+                    { url: '#' })
+            });
+        });
+        var renderer = new Timetable.Renderer(timetable);
+        renderer.draw(".timetable");
+    }
+</script>
+</body>
+</html>
