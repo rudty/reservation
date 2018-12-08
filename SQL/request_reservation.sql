@@ -8,7 +8,7 @@ GO
 -- Create date: 2018-12-07
 -- Description:	실제로 예약을 진행합니다
 -- =============================================
-ALTER PROCEDURE request_reservation
+CREATE PROCEDURE request_reservation
 @beginTime datetime,
 @endTime datetime,
 @roomsn bigint,
