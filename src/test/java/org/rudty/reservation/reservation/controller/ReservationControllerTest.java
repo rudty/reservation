@@ -58,7 +58,7 @@ public class ReservationControllerTest {
                 .andExpect(MockMvcResultMatchers.content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andReturn();
-        Assert.assertEquals(result.getResponse().getContentAsString(),"{result:\"OK\"}");
+        Assert.assertEquals(result.getResponse().getContentAsString(),"{\"result\":\"OK\"}");
         jdbcTemplate.execute("delete from reservation " +
                 "where beginTime='2017-12-07 23:30:00' and endTime='2017-12-08 00:00:00'" +
                 "and roomsn=1");
@@ -167,6 +167,6 @@ public class ReservationControllerTest {
                 .andExpect(MockMvcResultMatchers.content()
                         .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andReturn();
-        Assert.assertEquals(result.getResponse().getContentAsString(),"{result:\"FAIL\"}");
+        Assert.assertEquals(result.getResponse().getContentAsString(),"{\"result\":\"FAIL\"}");
     }
 }

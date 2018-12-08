@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
 @RequestMapping("/reservation")
 public class ReservationController {
 
-    private static final String RESULT_OK = "{result:\"OK\"}";
-    private static final String RESULT_FAIL = "{result:\"FAIL\"}";
+    private static final String RESULT_OK = "{\"result\":\"OK\"}";
+    private static final String RESULT_FAIL = "{\"result\":\"FAIL\"}";
     private static final String RESULT_ERROR_MESSAGE = "{\"result\":\"ERROR\", \"reason\":\"%s\"}";
     private static final String RESERVATION_ERROR_MESSAGE = "{\"result\":\"RESERVATION_ERROR\", \"reason\":\"%s\"}";
 
