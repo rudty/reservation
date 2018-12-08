@@ -23,7 +23,7 @@ public class UserRepositoryTest {
 
     @Test
     public void 있는유저() {
-        Assert.assertEquals(userRepository.getUserSN("테스트 유저"),Optional.of(1));
+        Assert.assertEquals(userRepository.getUserSN("테스트 유저"),Optional.of(1L));
     }
 
 }
