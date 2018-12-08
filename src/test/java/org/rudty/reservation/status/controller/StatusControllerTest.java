@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.rudty.reservation.ReservationApplication;
-import org.rudty.reservation.status.model.ReservationStatus;
+import org.rudty.reservation.status.dto.ReservationStatusDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -43,8 +42,8 @@ public class StatusControllerTest {
 
     @Test
     public void ok() {
-        List<ReservationStatus> r = statusController.status(newLocalDateTime("2018-12-04 23:00:00"), newLocalDateTime("2018-12-08 00:00:00"));
-        for(ReservationStatus e : r) {
+        List<ReservationStatusDTO> r = statusController.status(newLocalDateTime("2018-12-04 23:00:00"), newLocalDateTime("2018-12-08 00:00:00"));
+        for(ReservationStatusDTO e : r) {
             System.out.println(e);
         }
     }

@@ -1,6 +1,6 @@
 package org.rudty.reservation.status.controller;
 
-import org.rudty.reservation.status.model.ReservationStatus;
+import org.rudty.reservation.status.dto.ReservationStatusDTO;
 import org.rudty.reservation.status.service.ReservationStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionFailedException;
@@ -51,10 +51,10 @@ public class StatusController {
      * @return JSON 예약정보
      */
     @RequestMapping(method = RequestMethod.GET,params = {"beginDate", "endDate"})
-    public List<ReservationStatus> status(@RequestParam(name = "beginDate")
+    public List<ReservationStatusDTO> status(@RequestParam(name = "beginDate")
                                           @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime beginDate,
 
-                                          @RequestParam(name = "endDate")
+                                             @RequestParam(name = "endDate")
                                           @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime endDate) {
 
         return reservationStatusService.findReservations(beginDate, endDate);
