@@ -18,10 +18,14 @@ import java.util.stream.Collectors;
 @Service
 public class ReservationStatusService {
 
-    @Autowired
-    private ReservationStatusRepository reservationRepository;
-
     private static final int MAX_DIFF_DAY = 7;
+
+    private final ReservationStatusRepository reservationRepository;
+
+    @Autowired
+    public ReservationStatusService(ReservationStatusRepository reservationRepository) {
+        this.reservationRepository = reservationRepository;
+    }
 
     @Transactional
     public List<ReservationStatusDTO> findReservations(LocalDateTime beginTime, LocalDateTime endTime) {

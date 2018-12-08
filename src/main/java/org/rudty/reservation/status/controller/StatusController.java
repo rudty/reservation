@@ -30,8 +30,12 @@ public class StatusController {
         JSON_HEADER.setContentType(MediaType.APPLICATION_JSON);
     }
 
+    private final ReservationStatusService reservationStatusService;
+
     @Autowired
-    private ReservationStatusService reservationStatusService;
+    public StatusController(ReservationStatusService reservationStatusService) {
+        this.reservationStatusService = reservationStatusService;
+    }
 
 
     /**

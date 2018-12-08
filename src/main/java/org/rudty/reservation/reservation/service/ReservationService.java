@@ -16,18 +16,25 @@ import static org.springframework.transaction.annotation.Isolation.SERIALIZABLE;
 @Service
 public class ReservationService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final RoomRepository roomRepository;
+    private final ReservationRepository reservationRepository;
 
     @Autowired
-    private RoomRepository roomRepository;
-
-    @Autowired
-    private ReservationRepository reservationRepository;
+    public ReservationService(UserRepository userRepository, RoomRepository roomRepository, ReservationRepository reservationRepository) {
+        this.userRepository = userRepository;
+        this.roomRepository = roomRepository;
+        this.reservationRepository = reservationRepository;
+    }
 
 
     /**
      * 예약을 신청합니다
+     * roomName -> roomsn
+     * userName -> usersn
+     * 예약 가능여부 확인
+     * 예약
+     * 의 순서로 진행됩니다.
      *
      * @param beginDate 시작 시간
      * @param endDate   끝 시간

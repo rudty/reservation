@@ -1,8 +1,6 @@
 package org.rudty.reservation.common;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoUnit;
 
 public class DateUtils {
@@ -14,7 +12,7 @@ public class DateUtils {
      */
     public static boolean checkReservationMMss(LocalDateTime dateTime){
         int minute = dateTime.getMinute();
-        if(minute == 0 || minute == 30) {
+        if(minute == 30 || minute == 0) {
             int second = dateTime.getSecond();
             return second == 0;
         }
@@ -22,11 +20,24 @@ public class DateUtils {
     }
 
     /**
+     * 만들긴 했는데 테스트 문제로 안쓰는중..
+     *
+     * @param dateTime 입력받은 시간
+     * @return true 현재보다 이후의 시간, false 현재보다 이전의 시간
+     */
+    public static boolean isAfterThanNow(LocalDateTime dateTime) {
+        if (dateTime != null) {
+           return LocalDateTime.now().isBefore(dateTime);
+        }
+        return false;
+    }
+
+    /**
      *
      * @param beginDateTime 시작 시간
      * @param endDateTime 끝 시간
      * @param maxDiffDay 최대로 차이나는 날짜 수 maxDiffDay 이상으로 차이나면 에러
-     * @return 사이에 있는 날짜 문자열인지 판별
+     * 사이에 있는 날짜 문자열인지 판별
      */
     public static void checkBetweenDates(LocalDateTime beginDateTime, LocalDateTime endDateTime, int maxDiffDay) {
         if(beginDateTime.isAfter(endDateTime)) {

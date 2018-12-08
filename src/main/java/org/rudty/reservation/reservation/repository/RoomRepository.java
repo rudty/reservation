@@ -15,8 +15,12 @@ import java.util.Optional;
 @Repository
 public class RoomRepository {
 
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public RoomRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public Optional<Long> getRoomSN(String roomName) {
         Long value = null;

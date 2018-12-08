@@ -19,8 +19,12 @@ import java.util.Optional;
 @Repository
 public class UserRepository  {
 
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public UserRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public Optional<Long> getUserSN(String userName) {
         Long value = null;
