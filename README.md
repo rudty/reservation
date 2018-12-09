@@ -8,7 +8,7 @@
 3. reservation database 생성 
 4. SQL 폴더 안의 *.sql 파일들 table SQL파일 부터 실행
 5. JDK 8 or 그 이상의 버전 설치
-6. git clone 후 폴더 안의 빌드및실행.bat 실행
+6. git clone 후 폴더 안의 빌드및실행.bat 실행 혹은 빌드하지 않고 실행.bat 실행
 7. http://localhost:8080 접속 
 
 
