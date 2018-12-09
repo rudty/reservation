@@ -48,7 +48,18 @@ public class DateUtils {
             throw new IllegalArgumentException("check beginTime == endTime");
         }
 
+        if(maxDiffDay > 0 && beginDateTime.until(endDateTime, ChronoUnit.DAYS) > maxDiffDay) {
+            //0일 이상의 예약에 대해서는 일이 다르면 불가
+            throw new IllegalArgumentException("can not view more than a "+maxDiffDay+"day");
+        }
+
         if(maxDiffDay == 0){
+
+            if(beginDateTime.until(endDateTime, ChronoUnit.MINUTES) > 24 * 60) {
+                // 0일의 예약에 대해서는 24시간 * 60분은 불가능
+                throw new IllegalArgumentException("can not view more than 24h");
+            }
+
             if (beginDateTime.getDayOfMonth() != endDateTime.getDayOfMonth()) {
                 if (endDateTime.getHour() == 0 && endDateTime.getMinute() == 0){
                     //같은날짜의 00시는 그 전날의 24시까지로 취급
@@ -57,10 +68,8 @@ public class DateUtils {
                     throw new IllegalArgumentException("require same date");
                 }
             }
-
-        } else if(beginDateTime.until(endDateTime, ChronoUnit.DAYS) > maxDiffDay) {
-            throw new IllegalArgumentException("can not view more than a "+maxDiffDay+"day");
         }
+
     }
     
 }

@@ -2,8 +2,6 @@ package org.rudty.reservation.common;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -99,5 +97,17 @@ public class DateUtilsTest {
     public void 현재보다_이후_예약(){
         LocalDateTime dateTime = newLocalDateTime("2020-01-01 00:00:00");
         Assert.assertTrue("이후임",DateUtils.isAfterThanNow(dateTime));
+    }
+
+    @Test
+    public void 같은날짜인데_월만_다름(){
+        LocalDateTime begin = newLocalDateTime("2018-01-01 00:00:00");
+        LocalDateTime end = newLocalDateTime("2018-02-01 00:00:00");
+        try {
+            DateUtils.checkBetweenDates(begin, end, 0);
+            Assert.fail("월이 다름");
+        }catch (Exception ignore) {
+            //정상
+        }
     }
 }
