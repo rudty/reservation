@@ -1,5 +1,6 @@
 package org.rudty.reservation.reservation.controller;
 
+import org.rudty.reservation.common.DateUtils;
 import org.rudty.reservation.common.ReservationException;
 import org.rudty.reservation.reservation.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,12 @@ public class ReservationController {
         JSON_HEADER.setContentType(MediaType.APPLICATION_JSON);
     }
 
+    private final ReservationService reservationService;
+
     @Autowired
-    private ReservationService reservationService;
+    public ReservationController(ReservationService reservationService) {
+        this.reservationService = reservationService;
+    }
 
 
     @RequestMapping(method = RequestMethod.POST,
@@ -53,7 +58,12 @@ public class ReservationController {
             String userName,
             int repeat) {
 
-            reservationService.requestReservation(beginDate, endDate, roomName, userName, repeat);
+        //인자값 유효성 검사 수행
+        DateUtils.checkBetweenDates(beginDate, endDate, 0);
+        DateUtils.checkReservationMMss(beginDate);
+        DateUtils.checkReservationMMss(endDate);
+
+        reservationService.requestReservation(beginDate, endDate, roomName, userName, repeat);
 
         return RESULT_OK;
     }
